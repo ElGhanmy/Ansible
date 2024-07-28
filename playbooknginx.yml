@@ -1,26 +1,26 @@
 ---
 - name: Setup Web Server
   hosts: web
-#  become: 'yes'
+  become: yes
   tasks: null
-- name: Install Nginx
-  ansible.builtin.yum:
-    name: nginx
-    state: present
-- name: Start and enable Nginx
-  ansible.builtin.systemd:
-    name: nginx
-    state: started
-    enabled: 'yes'
-- name: Copy Nginx configuration
-  ansible.builtin.copy:
-    src: /path/to/local/nginx.conf
-    dest: /etc/nginx/nginx.conf
-    owner: root
-    group: root
-    mode: '0644'
-    backup: 'yes'
-- name: Restart Nginx
-  ansible.builtin.systemd:
-    name: nginx
-    state: restarted
+  - name: Install Nginx
+    ansible.builtin.yum:
+      name: nginx
+      state: present
+  - name: Start and enable Nginx
+    ansible.builtin.systemd:
+      name: nginx
+      state: started
+      enabled: 'yes'
+  - name: Copy Nginx configuration
+    ansible.builtin.copy:
+      src: /etc/nginx/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: '0644'
+      backup: 'yes'
+  - name: Restart Nginx
+    ansible.builtin.systemd:
+      name: nginx
+      state: restarted
