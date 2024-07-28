@@ -2,7 +2,7 @@
 - name: Setup Web Server
   hosts: web
   become: yes
-  tasks: null
+  tasks:
     - name: Install Nginx
       ansible.builtin.yum:
         name: nginx
