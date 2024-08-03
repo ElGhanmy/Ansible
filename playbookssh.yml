@@ -5,5 +5,5 @@
   tasks:
     - name: Ensure PasswordAuthentication is set to no
       ansible.builtin.debug:
-      msg: "PasswordAuthentication is set correctly"
+        msg: "PasswordAuthentication is set correctly"
       when: "'PasswordAuthentication no' in sshd_config_content.stdout"
