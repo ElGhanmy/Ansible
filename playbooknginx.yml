@@ -14,8 +14,9 @@
         enabled: 'yes'
     - name: Copy Nginx configuration
       ansible.builtin.copy:
-        src: /etc/nginx/nginx.conf
-        dest: /etc/nginx/nginx.conf
+        src: /etc/nginx/nginx.conf # error
+        dest: /etc/nginx/nginx.conf # error
+        remote_src: yes
         owner: root
         group: root
         mode: '0644'
