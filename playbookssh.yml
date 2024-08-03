@@ -12,8 +12,13 @@
       ansible.builtin.command: cat /etc/ssh/sshd_config
       when: sshd_config.stat.exists
       register: sshd_config_content
-      
+
     - name: Ensure PasswordAuthentication is set to no
       ansible.builtin.debug:
         msg: PasswordAuthentication is set correctly
       when: '''PasswordAuthentication no'' in sshd_config_content.stdout'
+
+    - name: Print SSH configuration file if it exists
+      ansible.builtin.debug:
+        msg: "{{ sshd_config_content.stdout }}"
+      when: sshd_config.stat.exists  
