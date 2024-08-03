@@ -1,0 +1,10 @@
+---
+- name: Install Docker
+  hosts: all
+  become: yes
+  tasks:
+   - name: install and configure Docker
+     ansible.builtin.script: ./script_docker.sh
+     
+   
+
