@@ -1,0 +1,9 @@
+---
+- name: Audit SSH Configuration
+  hosts: web
+  become: yes
+  tasks:
+    - name: Ensure PasswordAuthentication is set to no
+      ansible.builtin.debug:
+      msg: "PasswordAuthentication is set correctly"
+      when: "'PasswordAuthentication no' in sshd_config_content.stdout"
