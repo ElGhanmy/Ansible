@@ -1,9 +1,19 @@
 ---
 - name: Audit SSH Configuration
   hosts: web
-  become: yes
+  become: 'yes'
   tasks:
+    - name: Check if /etc/ssh/sshd_config exists
+      ansible.builtin.stat:
+        path: /etc/ssh/sshd_config
+      register: sshd_config
+
+    - name: Read the SSH configuration file
+      ansible.builtin.command: cat /etc/ssh/sshd_config
+      when: sshd_config.stat.exists
+      register: sshd_config_content
+      
     - name: Ensure PasswordAuthentication is set to no
       ansible.builtin.debug:
         msg: PasswordAuthentication is set correctly
-      when: "'PasswordAuthentication no' in sshd_config_content.stdout"
+      when: '''PasswordAuthentication no'' in sshd_config_content.stdout'
