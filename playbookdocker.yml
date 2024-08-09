@@ -1,6 +1,7 @@
 ---
 - name: Install and Configure Docker
-  hosts: web
+#  hosts: web
+  hosts: all
   become: yes
   tasks:
 

@@ -1,6 +1,7 @@
 ---
 - name: Setup Web Server
-  hosts: web
+#  hosts: web
+  hosts: webserver
   become: yes
   tasks:
     - name: Install Nginx
