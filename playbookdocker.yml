@@ -35,7 +35,7 @@
         name: docker-ce
         state: latest
 
-    - name: Vérifier si le service Docker est disponible
+    - name: Check if Docker service is available
       shell: systemctl is-enabled docker
       register: docker_service_enabled
       ignore_errors: yes
@@ -45,9 +45,3 @@
         name: docker
         state: started
         enabled: yes
-      when: docker_service_enabled.rc == 0
-
-    - name: Échec si Docker n'a pas été trouvé ou installé
-      fail:
-        msg: "Docker n'a pas été installé correctement ou le service n'est pas disponible."
-      when: docker_service_enabled.rc != 0
