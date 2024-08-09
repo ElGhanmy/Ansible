@@ -3,7 +3,6 @@
   hosts: web
   become: yes
   tasks:
-
     - name: Install required system packages
       apt:
         pkg:
@@ -11,32 +10,33 @@
           - ca-certificates
           - curl
           - software-properties-common
-          - virtualenv
-          - python3-setuptools
         state: latest
         update_cache: true
+
     - name: Add Docker GPG apt Key
       apt_key:
         url: 'https://download.docker.com/linux/ubuntu/gpg'
         state: present
+
     - name: Add Docker Repository
       apt_repository:
         repo: 'deb https://download.docker.com/linux/ubuntu focal stable'
         state: present
-    - name: Update apt and install docker-ce
+        filename: 'docker'
+
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Install Docker CE
       apt:
         name: docker-ce
         state: latest
-        update_cache: true
 
-    - name: Install Docker
-      ansible.builtin.apt:
-        name: docker
-        state: present
-    - name: Start and enable Docker
-      ansible.builtin.systemd:
+    - name: Start and enable Docker service
+      systemd:
         name: docker
         state: started
-        enabled: 'yes'
-   
+        enabled: yes
+
 
