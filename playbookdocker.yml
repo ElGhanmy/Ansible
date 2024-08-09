@@ -50,8 +50,9 @@
   #      mode: '0660'
 
     - name: Reload docker systemd daemon
-      ansible.builtin.systemd_service:
-        daemon_reload: true
+      command: systemctl daemon-reload
+     # ansible.builtin.systemd_service:
+     #   daemon_reload: true
 
     - name: Ensure the Docker service is started and enabled
       service:
