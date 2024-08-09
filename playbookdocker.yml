@@ -35,19 +35,22 @@
         name: docker-ce
         state: latest
 
-    - name: Ajouter l'utilisateur Ansible au groupe Docker
-      user:
-        name: "{{ ansible_user }}"
-        groups: docker
-        append: yes
+  #  - name: Ajouter l'utilisateur Ansible au groupe Docker
+  #    user:
+  #      name: "{{ ansible_user }}"
+  #      groups: docker
+  #      append: yes
 
-    - name: Ajuster les permissions du socket Docker
-      file:
-        path: /var/run/docker.sock
-        state: file
-        owner: root
-        group: docker
-        mode: '0660'
+  #  - name: Ajuster les permissions du socket Docker
+  #    file:
+  #      path: /var/run/docker.sock
+  #      state: file
+  #      owner: root
+  #      group: docker
+  #      mode: '0660'
+    - name: Reload systemd daemon
+      ansible.builtin.systemd_service:
+      daemon_reload: true
 
     - name: Ensure the Docker service is started and enabled
       service:
@@ -55,6 +58,3 @@
         state: started
         enabled: yes
 
-    - name: Redémarrer la session utilisateur pour appliquer les changements de groupe (nécessite une nouvelle connexion SSH)
-      shell: "newgrp docker"
-      ignore_errors: yes
