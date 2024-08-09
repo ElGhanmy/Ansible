@@ -1,47 +1,42 @@
 ---
-- name: Installer Docker sur les VMs
+- name: Install and Configure Docker
   hosts: web
   become: yes
   tasks:
-    - name: Update the package list
-      apt:
-        update_cache: yes
 
-    - name: Install required packages
+    - name: Install required system packages
       apt:
-        name: 
+        pkg:
           - apt-transport-https
           - ca-certificates
           - curl
           - software-properties-common
-        state: present
-
-    - name: Add GPG Key
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+    - name: Add Docker GPG apt Key
       apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
+        url: 'https://download.docker.com/linux/ubuntu/gpg'
         state: present
-
-    - name: Add Docker repository 
+    - name: Add Docker Repository
       apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        repo: 'deb https://download.docker.com/linux/ubuntu focal stable'
         state: present
-
-    - name: Update package list after adding Docker repository
-      apt:
-        update_cache: yes
-
-    - name: Make sure Docker is installed
+    - name: Update apt and install docker-ce
       apt:
         name: docker-ce
         state: latest
+        update_cache: true
 
-    - name: Reload docker systemd daemon
-      ansible.builtin.systemd_service:
-        daemon_reload: true
-
-    - name: Ensure the Docker service is started and enabled
-      service:
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: docker
+        state: present
+    - name: Start and enable Docker
+      ansible.builtin.systemd:
         name: docker
         state: started
-        enabled: yes
+        enabled: 'yes'
+   
 
