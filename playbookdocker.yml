@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Docker
-  hosts: web
+  hosts: all
   become: yes
   tasks:
     - name: Install required system packages
